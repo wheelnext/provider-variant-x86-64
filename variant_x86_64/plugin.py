@@ -48,8 +48,11 @@ class Plugin(PluginType):
         for prop in properties:
             assert prop.namespace == self.namespace
             if prop.feature == "level":
+                flag = f"-march=x86-64-{prop.value}"
+                if prop.value == "v1":
+                    flag = "-march=x86-64"
                 return {
-                    "cflags": [f"-march=x86-64-{prop.value}"],
-                    "cxxflags": [f"-march=x86-64-{prop.value}"],
+                    "cflags": [flag],
+                    "cxxflags": [flag],
                 }
         return {}
