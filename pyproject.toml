@@ -10,7 +10,7 @@ license-files = ["LICENSE"]
 dynamic = ["version", "description"]
 dependencies = [
     "archspec",
-    "variantlib @ https://github.com/mgorny/variantlib/archive/build-setup.tar.gz",
+    "variantlib @ https://github.com/mgorny/variantlib/archive/numpy-demo.tar.gz",
 ]
 
 [project.urls]
