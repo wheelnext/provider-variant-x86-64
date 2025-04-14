@@ -6,6 +6,7 @@ import archspec.cpu
 
 from variantlib.base import PluginType
 from variantlib.base import VariantFeatureConfigType
+from variantlib.base import VariantPropertyType
 from variantlib.models.provider import VariantFeatureConfig
 
 if TYPE_CHECKING:
@@ -40,3 +41,15 @@ class Plugin(PluginType):
             ]
 
         return []
+
+    def get_build_setup(
+        self, properties: list[VariantPropertyType]
+    ) -> dict[str, list[str]]:
+        for prop in properties:
+            assert prop.namespace == self.namespace
+            if prop.feature == "level":
+                return {
+                    "cflags": [f"-march=x86-64-{prop.value}"],
+                    "cxxflags": [f"-march=x86-64-{prop.value}"],
+                }
+        return {}

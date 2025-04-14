@@ -10,7 +10,7 @@ license-files = ["LICENSE"]
 dynamic = ["version", "description"]
 dependencies = [
     "archspec",
-    "variantlib",
+    "variantlib @ https://github.com/mgorny/variantlib/archive/build-setup.tar.gz",
 ]
 
 [project.urls]
