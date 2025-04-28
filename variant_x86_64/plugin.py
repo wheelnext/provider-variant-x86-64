@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 import archspec.cpu
 
-from variantlib.base import PluginType
-from variantlib.base import VariantFeatureConfigType
-from variantlib.base import VariantPropertyType
 from variantlib.models.provider import VariantFeatureConfig
+from variantlib.protocols import PluginType
+from variantlib.protocols import VariantFeatureConfigType
+from variantlib.protocols import VariantPropertyType
 
 if TYPE_CHECKING:
     from collections.abc import Generator
