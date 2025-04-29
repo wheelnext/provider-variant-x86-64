@@ -10,7 +10,7 @@ license-files = ["LICENSE"]
 dynamic = ["version", "description"]
 dependencies = [
     "archspec",
-    "variantlib @ https://github.com/wheelnext/variantlib/archive/main.tar.gz",
+    "variantlib",
 ]
 
 [project.urls]
