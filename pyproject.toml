@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "variant_x86_64"
-authors = [{name = "Michał Górny", email = "mgorny@gentoo.org"}]
+authors = [{name = "Michał Górny", email = "mgorny@quansight.com"}]
 license = "MIT"
 license-files = ["LICENSE"]
 dynamic = ["version", "description"]
