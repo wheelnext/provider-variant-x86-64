@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/wheelnext/x86_64-plugin/"
+Home = "https://github.com/wheelnext/variant_x86_64/"
