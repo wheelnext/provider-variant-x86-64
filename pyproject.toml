@@ -3,7 +3,7 @@ requires = ["flit_core >=3.11,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "variant_x86_64"
+name = "provider-variant-x86-64"
 authors = [{name = "Michał Górny", email = "mgorny@quansight.com"}]
 license = "MIT"
 license-files = ["LICENSE"]
@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/wheelnext/variant_x86_64/"
+Home = "https://github.com/wheelnext/provider-variant-x86-64/"
