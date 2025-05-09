@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
 
-class Plugin(PluginType):
+class X8664Plugin(PluginType):
     namespace = "x86_64"
 
     max_known_level = 4
