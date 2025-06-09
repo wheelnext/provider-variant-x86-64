@@ -1,19 +1,30 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import archspec.cpu
-
-from variantlib.models.provider import VariantFeatureConfig
-from variantlib.protocols import PluginType
-from variantlib.protocols import VariantFeatureConfigType
-from variantlib.protocols import VariantPropertyType
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
 
-class X8664Plugin(PluginType):
+@dataclass(frozen=True)
+class VariantFeatureConfig:
+    name: str
+
+    # Acceptable values in priority order
+    values: list[str]
+
+
+@dataclass(frozen=True)
+class VariantProperty:
+    namespace: str
+    feature: str
+    value: str
+
+
+class X8664Plugin:
     namespace = "x86_64"
 
     max_known_level = 4
@@ -99,14 +110,14 @@ class X8664Plugin(PluginType):
         for level in range(max_level, 0, -1):
             yield f"v{level}"
 
-    def get_all_configs(self) -> list[VariantFeatureConfigType]:
+    def get_all_configs(self) -> list[VariantFeatureConfig]:
         return [
             VariantFeatureConfig(
                 "level", list(self._level_range(self.max_known_level))
             ),
         ] + [VariantFeatureConfig(feature, ["on"]) for feature in self.all_features]
 
-    def get_supported_configs(self) -> list[VariantFeatureConfigType]:
+    def get_supported_configs(self) -> list[VariantFeatureConfig]:
         microarch = archspec.cpu.host()
         generic = microarch.generic
         if generic.name.startswith("x86_64_v"):
@@ -125,7 +136,7 @@ class X8664Plugin(PluginType):
         return []
 
     def get_build_setup(
-        self, properties: list[VariantPropertyType]
+        self, properties: list[VariantProperty]
     ) -> dict[str, list[str]]:
         for prop in properties:
             assert prop.namespace == self.namespace
