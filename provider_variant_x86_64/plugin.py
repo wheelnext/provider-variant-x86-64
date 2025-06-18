@@ -1,14 +1,40 @@
 from __future__ import annotations
 
+import importlib.util
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import TYPE_CHECKING
-
-from provider_variant_x86_64.archspec_utils import load_archspec_cpu
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-archspec_cpu = load_archspec_cpu()
+
+def _load_vendored_archspec() -> None:
+    """
+    Load a vendored `archspec` library.
+
+    Returns:
+        module (ModuleType): The loaded module.
+    """
+    name = "archspec"
+
+    spec = importlib.util.spec_from_file_location(
+        name=name,
+        location=Path(__file__).parent / "vendor/archspec/archspec/__init__.py",
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError("The submodule `archspec` is missing.")
+
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+
+
+_load_vendored_archspec()
+
+import archspec  # noqa: E402 # pyright: ignore[reportMissingImports]
+import archspec.cpu  # noqa: E402 # pyright: ignore[reportMissingImports]
 
 
 @dataclass(frozen=True)
@@ -120,7 +146,7 @@ class X8664Plugin:
         ] + [VariantFeatureConfig(feature, ["on"]) for feature in self.all_features]
 
     def get_supported_configs(self) -> list[VariantFeatureConfig]:
-        microarch = archspec_cpu.host()
+        microarch = archspec.cpu.host()
         generic = microarch.generic
         if generic.name.startswith("x86_64_v"):
             supported_level = int(generic.name.removeprefix("x86_64_v"))
@@ -151,3 +177,9 @@ class X8664Plugin:
                     "cxxflags": [flag],
                 }
         return {}
+
+
+if __name__ == "__main__":
+    plugin = X8664Plugin()
+    print(plugin.get_supported_configs())  # noqa: T201
+    # print(plugin.get_all_configs())
