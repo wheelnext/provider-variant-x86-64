@@ -27,6 +27,7 @@ class VariantProperty:
 
 class X8664Plugin:
     namespace = "x86_64"
+    dynamic = False
 
     max_known_level = 4
     """Max microarchitecture level supported at the time"""
@@ -111,14 +112,18 @@ class X8664Plugin:
         for level in range(max_level, 0, -1):
             yield f"v{level}"
 
-    def get_all_configs(self) -> list[VariantFeatureConfig]:
-        return [
-            VariantFeatureConfig(
-                "level", list(self._level_range(self.max_known_level))
-            ),
-        ] + [VariantFeatureConfig(feature, ["on"]) for feature in self.all_features]
+    def validate_property(self, variant_property: VariantProperty) -> bool:
+        assert variant_property.namespace == self.namespace
+        if variant_property.feature == "level":
+            return variant_property.value in self._level_range(self.max_known_level)
+        return (
+            variant_property.feature in self.all_features
+            and variant_property.value == "on"
+        )
 
-    def get_supported_configs(self) -> list[VariantFeatureConfig]:
+    def get_supported_configs(
+        self, known_properties: frozenset[VariantProperty] | None
+    ) -> list[VariantFeatureConfig]:
         microarch = archspec.cpu.host()
         generic = microarch.generic
         if generic.name.startswith("x86_64_v"):
@@ -154,5 +159,4 @@ class X8664Plugin:
 
 if __name__ == "__main__":
     plugin = X8664Plugin()
-    print(plugin.get_supported_configs())  # noqa: T201
-    # print(plugin.get_all_configs())
+    print(plugin.get_supported_configs(None))  # noqa: T201

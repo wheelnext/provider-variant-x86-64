@@ -17,7 +17,7 @@ def plugin() -> X8664Plugin:
 
 def test_bulldozer_configs(mocker, plugin):
     mocker.patch("archspec.cpu.host").return_value = archspec.cpu.TARGETS["bulldozer"]
-    assert plugin.get_supported_configs() == [
+    assert plugin.get_supported_configs(None) == [
         VariantFeatureConfig("level", ["v2", "v1"]),
         VariantFeatureConfig("avx", ["on"]),
         VariantFeatureConfig("abm", ["on"]),
@@ -37,7 +37,7 @@ def test_bulldozer_configs(mocker, plugin):
 
 def test_sandybridge_configs(mocker, plugin):
     mocker.patch("archspec.cpu.host").return_value = archspec.cpu.TARGETS["sandybridge"]
-    assert plugin.get_supported_configs() == [
+    assert plugin.get_supported_configs(None) == [
         VariantFeatureConfig("level", ["v2", "v1"]),
         VariantFeatureConfig("avx", ["on"]),
         VariantFeatureConfig("aes", ["on"]),
@@ -55,7 +55,7 @@ def test_sandybridge_configs(mocker, plugin):
 
 def test_generic_configs(mocker, plugin):
     mocker.patch("archspec.cpu.host").return_value = archspec.cpu.TARGETS["x86_64_v2"]
-    assert plugin.get_supported_configs() == [
+    assert plugin.get_supported_configs(None) == [
         VariantFeatureConfig("level", ["v2", "v1"]),
         VariantFeatureConfig("sse4_2", ["on"]),
         VariantFeatureConfig("sse4_1", ["on"]),
@@ -72,7 +72,7 @@ def test_generic_configs(mocker, plugin):
 
 def test_non_x86_configs(mocker, plugin):
     mocker.patch("archspec.cpu.host").return_value = archspec.cpu.TARGETS["cortex_a72"]
-    assert plugin.get_supported_configs() == []
+    assert plugin.get_supported_configs(None) == []
 
 
 def test_get_build_setup(plugin):
@@ -108,6 +108,6 @@ def test_level_cap(mocker, plugin):
     mocker.patch("archspec.cpu.host").return_value = Namespace(
         generic=Namespace(name="x86_64_v6")
     )
-    assert plugin.get_supported_configs() == [
+    assert plugin.get_supported_configs(None) == [
         VariantFeatureConfig("level", ["v4", "v3", "v2", "v1"]),
     ]
