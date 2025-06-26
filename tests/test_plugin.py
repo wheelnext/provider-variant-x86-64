@@ -111,3 +111,31 @@ def test_level_cap(mocker, plugin):
     assert plugin.get_supported_configs(None) == [
         VariantFeatureConfig("level", ["v4", "v3", "v2", "v1"]),
     ]
+
+
+@pytest.mark.parametrize(
+    "vprop",
+    [
+        "x86_64 :: level :: v1",
+        "x86_64 :: level :: v4",
+        "x86_64 :: avx512f :: on",
+        "x86_64 :: sse3 :: on",
+        "x86_64 :: ssse3 :: on",
+    ],
+)
+def test_validate_variant(vprop: str, plugin) -> None:
+    assert plugin.validate_property(VariantProperty.from_str(vprop))
+
+
+@pytest.mark.parametrize(
+    "vprop",
+    [
+        "x86_64 :: level :: v5",
+        "x86_64 :: level :: v0",
+        "x86_64 :: level :: foo",
+        "x86_64 :: avx512f :: off",
+        "x86_64 :: weirdthing :: on",
+    ],
+)
+def test_validate_variant_fail(vprop: str, plugin) -> None:
+    assert not plugin.validate_property(VariantProperty.from_str(vprop))
