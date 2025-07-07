@@ -75,31 +75,30 @@ def test_non_x86_configs(mocker, plugin):
     assert plugin.get_supported_configs(None) == []
 
 
-def test_get_build_setup(plugin):
-    assert plugin.get_build_setup(
+def test_get_compiler_flags(plugin):
+    assert plugin.get_compiler_flags(
+        "gcc",
         [
             VariantProperty("x86_64", "level", "v2"),
             VariantProperty("x86_64", "avx2", "on"),
-        ]
-    ) == {
-        "cflags": ["-march=x86-64-v2"],
-        "cxxflags": ["-march=x86-64-v2"],
-    }
+        ],
+    ) == ["-march=x86-64-v2"]
 
 
-def test_get_build_setup_no_level(plugin):
+def test_get_compiler_flags_no_level(plugin):
     assert (
-        plugin.get_build_setup(
+        plugin.get_compiler_flags(
+            "gcc",
             [
                 VariantProperty("x86_64", "avx2", "on"),
-            ]
+            ],
         )
-        == {}
+        == []
     )
 
 
-def test_get_build_setup_no_properties(plugin):
-    assert plugin.get_build_setup([]) == {}
+def test_get_compiler_flags_no_properties(plugin):
+    assert plugin.get_compiler_flags("clang", []) == []
 
 
 def test_level_cap(mocker, plugin):

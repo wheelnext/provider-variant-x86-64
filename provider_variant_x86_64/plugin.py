@@ -141,20 +141,23 @@ class X8664Plugin:
 
         return []
 
-    def get_build_setup(
-        self, properties: list[VariantProperty]
-    ) -> dict[str, list[str]]:
+    def get_compiler_flags(
+        self, compiler_type: str, properties: list[VariantProperty]
+    ) -> list[str]:
+        if compiler_type not in ("gcc", "clang"):
+            raise NotImplementedError(
+                f"Flags for compiler {compiler_type} not implemented"
+            )
+
         for prop in properties:
             assert prop.namespace == self.namespace
             if prop.feature == "level":
-                flag = f"-march=x86-64-{prop.value}"
-                if prop.value == "v1":
-                    flag = "-march=x86-64"
-                return {
-                    "cflags": [flag],
-                    "cxxflags": [flag],
-                }
-        return {}
+                return [
+                    f"-march=x86-64-{prop.value}"
+                    if prop.value != "v1"
+                    else "-march=x86-64"
+                ]
+        return []
 
 
 if __name__ == "__main__":
