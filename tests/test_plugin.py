@@ -77,7 +77,9 @@ def test_non_x86_configs(mocker, plugin):
 
 def test_get_compiler_flags(plugin):
     assert plugin.get_compiler_flags(
+        "c",
         "gcc",
+        "14.3.0",
         [
             VariantProperty("x86_64", "level", "v2"),
             VariantProperty("x86_64", "avx2", "on"),
@@ -88,7 +90,9 @@ def test_get_compiler_flags(plugin):
 def test_get_compiler_flags_no_level(plugin):
     assert (
         plugin.get_compiler_flags(
-            "gcc",
+            "c++",
+            "clang",
+            "20.1.8",
             [
                 VariantProperty("x86_64", "avx2", "on"),
             ],
@@ -98,7 +102,7 @@ def test_get_compiler_flags_no_level(plugin):
 
 
 def test_get_compiler_flags_no_properties(plugin):
-    assert plugin.get_compiler_flags("clang", []) == []
+    assert plugin.get_compiler_flags("c", "clang", "19.1.7", []) == []
 
 
 def test_level_cap(mocker, plugin):
