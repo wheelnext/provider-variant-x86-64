@@ -27,7 +27,6 @@ class VariantProperty:
 
 class X8664Plugin:
     namespace = "x86_64"
-    dynamic = False
 
     max_known_level = 4
     """Max microarchitecture level supported at the time"""
@@ -121,9 +120,7 @@ class X8664Plugin:
             and variant_property.value == "on"
         )
 
-    def get_supported_configs(
-        self, known_properties: frozenset[VariantProperty] | None
-    ) -> list[VariantFeatureConfig]:
+    def get_supported_configs(self) -> list[VariantFeatureConfig]:
         microarch = archspec.cpu.host()
         generic = microarch.generic
         if generic.name.startswith("x86_64_v"):
