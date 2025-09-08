@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-import provider_variant_aarch64.vendor.archspec.archspec.cpu as archspec_cpu
+import provider_variant_x86_64.vendor.archspec.archspec.cpu as archspec_cpu
 
 if TYPE_CHECKING:
     from collections.abc import Generator
