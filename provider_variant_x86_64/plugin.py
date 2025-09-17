@@ -166,6 +166,6 @@ class X8664Plugin:
 
 
 if __name__ == "__main__":
-    plugin = X8664Plugin()
-    print(plugin.get_supported_configs())  # noqa: T201
-    # print(plugin.get_all_configs())
+    print(f"{X8664Plugin.namespace=}")  # noqa: T201
+    print(f"{X8664Plugin.get_supported_configs()=}")  # noqa: T201
+    print(f"{X8664Plugin.get_all_configs()=}")  # noqa: T201
