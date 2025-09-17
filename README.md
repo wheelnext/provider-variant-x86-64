@@ -15,7 +15,6 @@ Example use in `pyproject.toml`:
 ```toml
 [variant.providers.x86_64]
 requires = ["provider-variant-x86-64"]
-plugin-api = "provider_variant_x86_64.plugin:X8664Plugin"
 ```
 
 ## Provided properties
