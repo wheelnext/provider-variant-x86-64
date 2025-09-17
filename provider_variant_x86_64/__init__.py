@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from .plugin import X8664Plugin
 
-__version__ = "0.0.1.post2"
+__version__ = "0.0.2"
 
 namespace = X8664Plugin.namespace
 get_supported_configs = X8664Plugin.get_supported_configs
