@@ -8,7 +8,7 @@ properties specific to x86-64 CPUs.
 
 Namespace: `x86_64`
 
-Plugin API: `provider_variant_x86_64.plugin:X8664Plugin`
+Plugin API: `provider_variant_x86_64` (matching the default)
 
 Example use in `pyproject.toml`:
 
