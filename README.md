@@ -14,23 +14,23 @@ Example use in `pyproject.toml`:
 
 ```toml
 [variant.providers.x86_64]
-requires = ["provider-variant-x86-64 >=0.0.1,<1"]
+requires = ["provider-variant-x86-64"]
 plugin-api = "provider_variant_x86_64.plugin:X8664Plugin"
 ```
 
 ## Provided properties
 
 To obtain the full list of properties supported by a given plugin
-version, use:
+version, install it, then use:
 
 ```sh
-variantlib plugins -p provider_variant_x86_64.plugin:X8664Plugin get-all-configs
+variantlib plugins get-configs -a -n x86_64
 ```
 
 To obtain the full list of properties compatible with your system, use:
 
 ```sh
-variantlib plugins -p provider_variant_x86_64.plugin:X8664Plugin get-supported-configs
+variantlib plugins get-configs -s -n x86_64
 ```
 
 ### x86_64 :: level
