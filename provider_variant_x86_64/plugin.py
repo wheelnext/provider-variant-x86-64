@@ -110,14 +110,14 @@ class X8664Plugin:
         for level in range(max_level, 0, -1):
             yield f"v{level}"
 
-    def get_all_configs(self) -> list[VariantFeatureConfig]:
+    @classmethod
+    def get_all_configs(cls) -> list[VariantFeatureConfig]:
         return [
-            VariantFeatureConfig(
-                "level", list(self._level_range(self.max_known_level))
-            ),
-        ] + [VariantFeatureConfig(feature, ["on"]) for feature in self.all_features]
+            VariantFeatureConfig("level", list(cls._level_range(cls.max_known_level))),
+        ] + [VariantFeatureConfig(feature, ["on"]) for feature in cls.all_features]
 
-    def get_supported_configs(self) -> list[VariantFeatureConfig]:
+    @classmethod
+    def get_supported_configs(cls) -> list[VariantFeatureConfig]:
         microarch = archspec_cpu.host()
         generic = microarch.generic
         if generic.name.startswith("x86_64_v"):
@@ -125,18 +125,19 @@ class X8664Plugin:
             return [
                 VariantFeatureConfig(
                     "level",
-                    list(self._level_range(min(supported_level, self.max_known_level))),
+                    list(cls._level_range(min(supported_level, cls.max_known_level))),
                 ),
             ] + [
                 VariantFeatureConfig(feature, ["on"])
-                for feature in self.all_features
+                for feature in cls.all_features
                 if feature in microarch
             ]
 
         return []
 
+    @classmethod
     def get_compiler_flags(
-        self,
+        cls,
         language: str,
         compiler_name: str,
         compiler_version: str,
@@ -154,7 +155,7 @@ class X8664Plugin:
             )
 
         for prop in properties:
-            assert prop.namespace == self.namespace
+            assert prop.namespace == cls.namespace
             if prop.feature == "level":
                 return [
                     f"-march=x86-64-{prop.value}"
