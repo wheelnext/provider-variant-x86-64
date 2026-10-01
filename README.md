@@ -62,3 +62,20 @@ used unconditionally. If the code using them uses runtime detection,
 they should not be specified, as they will prevent installing the wheel
 on systems where the extension is not available (yet the code would work
 fine, disabling the code in question).
+
+## Detection
+
+Detection is backed by archspec and shared between
+[provider-variant-x86-64](https://github.com/wheelnext/provider-variant-x86-64)
+and
+[provider-variant-aarch64](https://github.com/wheelnext/provider-variant-aarch64).
+The output from each command is mapped against the
+[archspec microarchitecture database](https://github.com/archspec/archspec-json/blob/90b453f4053b6b139d1d2cb78c463b02e71ef363/cpu/microarchitectures.json)
+to emit the actual feature.
+
+| OS      | Detection method                                                                                                                                                                                                                                              |
+|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Linux   | Read `vendor_id` and `flags` from the first CPU entry in `/proc/cpuinfo`.                                                                                                                                                                                     |
+| macOS   | Run `sysctl` in a subprocess and parse `machdep.cpu.vendor`, `machdep.cpu.features`, `machdep.cpu.leaf7_features`, and `machdep.cpu.extfeatures`.                                                                                                             |
+| Windows | Execute the `CPUID` instruction and decode its registers using [cpuid.json](https://github.com/archspec/archspec-json/blob/90b453f4053b6b139d1d2cb78c463b02e71ef363/cpu/cpuid.json).                                                                          |
+
